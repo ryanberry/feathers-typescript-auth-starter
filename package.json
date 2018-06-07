@@ -1,0 +1,67 @@
+{
+  "name": "coffeecounterco-api",
+  "description": "",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src",
+  "keywords": [
+    "feathers"
+  ],
+  "author": {
+    "name": "Ryan",
+    "email": "hey@mix-tape.io"
+  },
+  "contributors": [],
+  "bugs": {},
+  "directories": {
+    "lib": "src",
+    "test": "test/"
+  },
+  "engines": {
+    "node": "^8.0.0",
+    "yarn": ">= 0.18.0"
+  },
+  "scripts": {
+    "test": "yarn run tslint && yarn run mocha",
+    "tslint": "tslint src/**/*.ts test/**/*.ts --config tslint.json",
+    "start": "node index.js",
+    "mocha": "mocha --require ts-node/register --watch --watch-extensions tsx,ts test/**"
+  },
+  "dependencies": {
+    "@feathersjs/configuration": "^1.0.2",
+    "@feathersjs/errors": "^3.3.0",
+    "@feathersjs/express": "^1.2.3",
+    "@feathersjs/feathers": "^3.1.6",
+    "@feathersjs/socketio": "^3.2.2",
+    "@types/feathersjs__errors": "^3.2.1",
+    "@types/supertest": "^2.0.4",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "helmet": "^3.12.1",
+    "serve-favicon": "^2.5.0",
+    "supertest": "^3.1.0",
+    "ts-node": "^6.1.0",
+    "tslint": "^5.10.0",
+    "typescript": "^2.9.1",
+    "winston": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/assert": "^0.0.31",
+    "@types/compression": "^0.0.36",
+    "@types/cors": "^2.8.4",
+    "@types/express": "^4.16.0",
+    "@types/feathersjs__configuration": "^1.0.1",
+    "@types/feathersjs__express": "^1.1.4",
+    "@types/feathersjs__feathers": "^3.0.3",
+    "@types/feathersjs__socketio": "^3.0.3",
+    "@types/helmet": "^0.0.38",
+    "@types/mocha": "^5.2.1",
+    "@types/request-promise": "^4.1.41",
+    "@types/serve-favicon": "^2.2.30",
+    "@types/winston": "^2.3.9",
+    "eslint": "^4.19.1",
+    "mocha": "^5.2.0",
+    "request": "^2.87.0",
+    "request-promise": "^4.2.2"
+  }
+}
