@@ -10,8 +10,6 @@ import appHooks from './app.hooks'
 
 import channels from './channels'
 
-import authentication from './authentication'
-
 const app = express(feathers())
 
 app.configure(configuration())
@@ -20,7 +18,6 @@ app.configure(express.rest())
 app.configure(socketio())
 
 app.configure(middleware)
-app.configure(authentication)
 app.configure(services)
 app.configure(channels)
 
