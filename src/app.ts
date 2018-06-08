@@ -2,6 +2,7 @@ import feathers from '@feathersjs/feathers'
 import configuration from '@feathersjs/configuration'
 import express from '@feathersjs/express'
 import socketio from '@feathersjs/socketio'
+import { Logger } from 'winston'
 
 import middleware from './middleware'
 import services from './services'
@@ -9,21 +10,27 @@ import appHooks from './app.hooks'
 
 import channels from './channels'
 
+import authentication from './authentication'
+
 const app = express(feathers())
 
-// Load app configuration
 app.configure(configuration())
 
-// Set up Plugins and providers
 app.configure(express.rest())
 app.configure(socketio())
 
-// Configure other middleware (see `middleware/index.js`)
 app.configure(middleware)
-// Set up our services (see `services/index.js`)
+app.configure(authentication)
 app.configure(services)
-// Set up event channels (see channels.js)
 app.configure(channels)
+
+app.use(express.notFound())
+
+const logger = new Logger({
+  level: 'silly',
+})
+
+app.use(express.errorHandler({ logger }))
 
 app.hooks(appHooks)
 
