@@ -10,6 +10,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  displayName: {
+    type: String,
+    required: true,
+  },
 })
 
 const userModel = model('User', UserSchema)

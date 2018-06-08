@@ -37,6 +37,7 @@ describe('Feathers application tests', () => {
     const newUser = {
       email: faker.internet.email(),
       password: faker.internet.password(),
+      displayName: faker.name.firstName(),
     }
     let createdUser: any = newUser
 
@@ -74,5 +75,29 @@ describe('Feathers application tests', () => {
         .set('Authorization', accessToken)
         .expect(200)
         .then(response => expect(response.body).to.eql(createdUser)))
+
+    it('authenticated users should be able to patch users', () =>
+      request(server)
+        .patch(`/users/${createdUser._id}`)
+        .set('Accept', 'application/json')
+        .set('Authorization', accessToken)
+        .send({
+          displayName: 'New Name',
+        })
+        .expect(200)
+        .then(response => expect(response.body.displayName).to.eql('New Name')))
+
+    it('authenticated users should be able to delete users', () =>
+      request(server)
+        .delete(`/users/${createdUser._id}`)
+        .set('Accept', 'application/json')
+        .set('Authorization', accessToken)
+        .expect(200)
+        .then(response =>
+          request(server)
+            .get(`/users/${createdUser._id}`)
+            .set('Authorization', accessToken)
+            .expect(404),
+        ))
   })
 })
