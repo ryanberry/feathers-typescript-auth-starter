@@ -2,13 +2,13 @@ import * as request from 'supertest'
 import { should, expect, assert } from 'chai'
 import * as faker from 'faker'
 
-import app from '../src/app'
 import server from '../src/index'
+import beforeAll from './utilities/beforeAll'
+import afterAll from './utilities/afterAll'
 
 describe('Feathers application tests', () => {
-  after(() => {
-    server.close()
-  })
+  before(beforeAll)
+  after(afterAll)
 
   it('starts and shows the index page', () =>
     request(server)

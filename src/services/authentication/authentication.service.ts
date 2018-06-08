@@ -3,6 +3,8 @@ import authentication from '@feathersjs/authentication'
 import jwt from '@feathersjs/authentication-jwt'
 import local, { LocalVerifier } from '@feathersjs/authentication-local'
 
+import hooks from './authentication.hooks'
+
 export default (app: Application<{}>) => {
   const config = app.get('authentication')
 
@@ -10,10 +12,5 @@ export default (app: Application<{}>) => {
   app.configure(jwt())
   app.configure(local())
 
-  app.service('authentication').hooks({
-    before: {
-      create: [authentication.hooks.authenticate('local')],
-      remove: [authentication.hooks.authenticate('jwt')],
-    },
-  })
+  app.service('authentication').hooks(hooks)
 }

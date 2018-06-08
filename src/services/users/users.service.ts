@@ -1,18 +1,18 @@
-import * as createService from 'feathers-nedb'
-import createModel from '../../models/users.model'
+import * as createService from 'feathers-mongoose'
+import { UserModel } from '../../models/users.model'
 import hooks from './users.hooks'
+import { Mongoose } from 'mongoose'
 
 export default app => {
-  const Model = createModel(app)
-  const paginate = app.get('paginate')
+  const paginationSettings = app.get('paginate')
 
-  const options = {
-    name: 'users',
-    Model,
-    paginate,
+  const serviceOptions = {
+    Model: UserModel,
+    lean: false,
+    paginate: paginationSettings,
   }
 
-  app.use('/users', createService(options))
+  app.use('/users', createService(serviceOptions))
 
   const service = app.service('users')
 

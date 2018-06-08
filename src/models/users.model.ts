@@ -1,14 +1,17 @@
-import * as NeDB from 'nedb'
-import * as path from 'path'
+import { Schema, Model, model, models } from 'mongoose'
 
-export default app => {
-  const dbPath = app.get('nedb')
-  const Model = new NeDB({
-    filename: path.join(dbPath, 'users.db'),
-    autoload: true,
-  })
+const UserSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+})
 
-  Model.ensureIndex({ fieldName: 'email', unique: true })
+const userModel = model('User', UserSchema)
 
-  return Model
-}
+export const UserModel = userModel
