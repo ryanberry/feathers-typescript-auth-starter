@@ -76,7 +76,7 @@ describe('Feathers application tests', () => {
         .expect(200)
         .then(response => expect(response.body).to.eql(createdUser)))
 
-    it('authenticated users should be able to patch users', () =>
+    it('authenticated users should be able to patch themselves', () =>
       request(server)
         .patch(`/users/${createdUser._id}`)
         .set('Accept', 'application/json')
