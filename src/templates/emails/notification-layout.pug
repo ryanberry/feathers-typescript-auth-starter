@@ -1,0 +1,28 @@
+doctype html
+html
+  head
+    meta(name="viewport" content="width=device-width")
+    meta(http-equiv="Content-Type" content="text/html; charset=UTF-8")
+    title
+      block subject
+  body
+    row
+      columns &nbsp;
+      columns(class="container")
+        div(class="content")
+          span(class="preheader")
+            block preview
+          row(class="main")
+            columns(class="wrapper")
+              row
+                columns(class="logo-wrapper")
+              row
+                columns
+                  p Hi #{name}
+                  block content
+              row
+                columns
+                  | Cheers,
+                  br
+                  span
+                    | App Team

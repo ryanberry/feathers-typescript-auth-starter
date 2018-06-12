@@ -1,32 +1,64 @@
-import { HooksObject, HookContext } from '@feathersjs/feathers'
+import { HooksObject } from '@feathersjs/feathers'
 import { hooks as authHooks } from '@feathersjs/authentication'
-import { hooks as localHooks } from '@feathersjs/authentication-local'
+import { hooks as localAuthHooks } from '@feathersjs/authentication-local'
 import * as utilityHooks from 'feathers-authentication-hooks'
 import gravatar from '../../hooks/gravatar'
+import sendVerificationEmail from '../../hooks/sendVerificationEmail'
+import * as authManagement from 'feathers-authentication-management'
+import {
+  discard,
+  when,
+  iff,
+  isProvider,
+  preventChanges,
+  disallow,
+} from 'feathers-hooks-common'
 
+const { restrictToOwner } = utilityHooks
+const { addVerification, removeVerification } = authManagement.hooks
 const { authenticate } = authHooks
-const { hashPassword, protect } = localHooks
+const { hashPassword } = localAuthHooks
 
 const UsersHooks: HooksObject = {
   before: {
     all: [],
     find: [authenticate('jwt')],
     get: [authenticate('jwt')],
-    create: [hashPassword(), gravatar()],
-    update: [hashPassword(), authenticate('jwt')],
+    create: [addVerification(), hashPassword(), gravatar()],
+    update: [disallow('external')],
     patch: [
-      hashPassword(),
       authenticate('jwt'),
-      utilityHooks.restrictToOwner({ ownerField: '_id' }),
+      iff(
+        isProvider('external'),
+        restrictToOwner({ ownerField: '_id' }),
+        preventChanges(
+          false,
+          'email',
+          'isVerified',
+          'verifyToken',
+          'verifyShortToken',
+          'verifyExpires',
+          'verifyChanges',
+          'resetToken',
+          'resetShortToken',
+          'resetExpires',
+        ),
+      ),
+      hashPassword(),
     ],
     remove: [authenticate('jwt')],
   },
 
   after: {
-    all: [protect('password')],
+    all: [
+      when(
+        hook => hook.params.provider,
+        discard('password', 'verifyExpires', 'resetExpires', 'verifyChanges'),
+      ),
+    ],
     find: [],
     get: [],
-    create: [],
+    create: [sendVerificationEmail(), removeVerification()],
     update: [],
     patch: [],
     remove: [],

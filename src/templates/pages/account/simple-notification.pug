@@ -1,0 +1,10 @@
+extends ../notification-layout.pug
+
+block subject
+  | #{subject}
+
+block content
+  if title
+    h1 #{title}
+  if content
+    p.align-center #{content}

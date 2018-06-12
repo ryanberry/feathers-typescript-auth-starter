@@ -1,0 +1,49 @@
+@import "variables";
+.body {
+  background-color: $bg-color;
+  width: 100%;
+}
+
+.container {
+  display: $display;
+  margin: 0 auto !important;
+  /* makes it centered */
+  max-width: $max-width;
+  padding: $padding-common;
+  width: auto !important;
+  width: $width;
+}
+
+.content {
+  box-sizing: $box-sizing;
+  display: $display;
+  margin: 0 auto;
+  max-width: $width;
+  padding: $padding-common;
+}
+
+.main {
+  background: $bg-color-hero;
+  border-radius: $border-radius;
+  width: 100%;
+}
+
+.wrapper {
+  box-sizing: $box-sizing;
+  padding: $padding-wrapper;
+}
+
+.footer {
+  clear: both;
+  padding-top: $padding-common;
+  text-align: center;
+  width: 100%;
+  td,
+  p,
+  span,
+  a {
+    color: $color-footer-text;
+    font-size: $font-size-footer;
+    text-align: center;
+  }
+}

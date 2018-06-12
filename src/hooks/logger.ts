@@ -1,9 +1,9 @@
 import { Logger } from 'winston'
 import * as util from 'util'
 
-const logger = new Logger()
-
-logger.level = 'debug'
+export const logger = new Logger({
+  level: 'debug',
+})
 
 export default () => {
   return context => {

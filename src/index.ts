@@ -1,6 +1,8 @@
+import { InitialiseApp } from './init'
 import * as logger from 'winston'
-
 import app from './app'
+
+new InitialiseApp()
 
 const port = app.get('port')
 const server = app.listen(port)

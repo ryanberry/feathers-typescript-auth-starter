@@ -1,10 +1,12 @@
 import * as request from 'supertest'
-import { should, expect, assert } from 'chai'
+import { expect } from 'chai'
 import * as faker from 'faker'
+import * as cheerio from 'cheerio'
 
 import server from '../src/index'
 import beforeAll from './utilities/beforeAll'
 import afterAll from './utilities/afterAll'
+import MailDevService from './utilities/maildev'
 
 describe('Feathers application tests', () => {
   before(beforeAll)
@@ -34,6 +36,7 @@ describe('Feathers application tests', () => {
 
   describe('authentication', () => {
     let accessToken
+    let verifyToken
     const newUser = {
       email: faker.internet.email(),
       password: faker.internet.password(),
@@ -41,13 +44,26 @@ describe('Feathers application tests', () => {
     }
     let createdUser: any = newUser
 
-    it('should let users register', () =>
+    it('should let users register', done => {
       request(server)
         .post('/users')
         .send(newUser)
         .expect(201)
         .expect(response => (createdUser = response.body))
-        .then(response => expect(response.body.email).to.equal(newUser.email)))
+        .expect(async response => {
+          const subscription = await MailDevService.newMail.subscribe(mail => {
+            expect(mail.subject).to.equal('Confirm Signup')
+            const $ = cheerio.load(mail.html)
+            verifyToken = $('#hashLink')
+              .attr('href')
+              .split('/')
+              .pop()
+            subscription.unsubscribe()
+            done()
+          })
+        })
+        .then(response => expect(response.body.email).to.equal(newUser.email))
+    })
 
     it('should let users authenticate', () =>
       request(server)
@@ -75,6 +91,20 @@ describe('Feathers application tests', () => {
         .set('Authorization', accessToken)
         .expect(200)
         .then(response => expect(response.body).to.eql(createdUser)))
+
+    it('should let users verify', () =>
+      request(server)
+        .get(`/verify/${verifyToken}`)
+        .expect(200)
+        .then(response =>
+          request(server)
+            .get(`/users/${createdUser._id}`)
+            .set('Authorization', accessToken)
+            .expect(200)
+            .then(
+              userResponse => expect(userResponse.body.isVerified).to.be.true,
+            ),
+        ))
 
     it('authenticated users should be able to patch themselves', () =>
       request(server)

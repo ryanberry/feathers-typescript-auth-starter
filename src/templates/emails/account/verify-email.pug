@@ -1,0 +1,13 @@
+extends ../notification-layout.pug
+
+block preview
+  | Verify your email
+
+block subject
+  | Verify your email
+
+block content
+  p Thank you for signing up. Please verify your email.
+  row(class="btn btn-primary")
+    columns
+      a#hashLink(href=hashLink) Verify your email
