@@ -3,7 +3,7 @@ import { hooks as authHooks } from '@feathersjs/authentication'
 import { hooks as localAuthHooks } from '@feathersjs/authentication-local'
 import * as utilityHooks from 'feathers-authentication-hooks'
 import gravatar from '../../hooks/gravatar'
-import sendVerificationEmail from '../../hooks/sendVerificationEmail'
+import sendVerificationEmail from '../../hooks/send-verification-email'
 import * as authManagement from 'feathers-authentication-management'
 import {
   discard,

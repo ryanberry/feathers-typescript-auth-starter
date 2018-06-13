@@ -1,8 +1,7 @@
-import * as authManagement from 'feathers-authentication-management'
-import hooks from './authManagement.hooks'
-import notifier from './notifier'
 import { Application } from '@feathersjs/express'
-import { NotFound } from '@feathersjs/errors'
+import * as authManagement from 'feathers-authentication-management'
+import hooks from './authentication-management.hooks'
+import notifier from './notifier'
 
 export default (app: Application<{}>) => {
   app.configure(authManagement(notifier(app)))
@@ -27,15 +26,14 @@ export default (app: Application<{}>) => {
           content: 'Your email has been verified.',
         }),
       )
-      .catch(err => {
-        res.status(404)
-        res.render('pages/account/simple-notification', {
+      .catch(err =>
+        res.status(404).render('pages/account/simple-notification', {
           subject: 'Whoops!',
           title: 'Whoops!',
           content: `We couldn't verify your email, please try again`,
-        })
-      })
+        }),
+      )
   })
 
-  return authManagement
+  return authManagementService
 }

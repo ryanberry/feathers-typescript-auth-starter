@@ -1,5 +1,5 @@
 import { HookContext, Hook } from '@feathersjs/feathers'
-import accountService from '../services/authManagement/notifier'
+import accountService from '../services/authentication-management/notifier'
 
 export default (options?): Hook => {
   return (hook: HookContext) => {
