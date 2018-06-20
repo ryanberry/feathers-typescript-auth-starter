@@ -1,6 +1,6 @@
 import { Application } from '@feathersjs/feathers'
 import * as createService from 'feathers-mongoose'
-import { UserModel } from '../../models/users.model'
+import { UserModel } from '../../models/user.model'
 import hooks from './users.hooks'
 
 export default (app: Application<{}>) => {
