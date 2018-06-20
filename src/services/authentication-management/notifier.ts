@@ -4,7 +4,7 @@ import * as logger from 'winston'
 
 export default (app: Application) => {
   const buildLink = (type, hash) => {
-    const port = app.get('port') || '80'
+    const port = app.get('webport') || '80'
     const host = app.get('host') || 'localhost'
     const protocol = app.get('protocol') || 'http'
     return `${protocol}://${host}:${port}/${type}/${hash}`
@@ -15,6 +15,7 @@ export default (app: Application) => {
       let subject
       let templateName
       const templateData: { [key: string]: string } = {}
+      user = user._doc
 
       switch (type) {
         case 'resendVerifySignup':
@@ -26,21 +27,19 @@ export default (app: Application) => {
 
         case 'verifySignup':
           subject = 'Thank you, your email has been verified'
-          user = user._doc
           templateName = 'account/email-verified'
 
           break
         case 'sendResetPwd':
           subject = 'Reset Password'
           templateName = 'account/reset-password'
-          templateData.hashLink = buildLink('reset', user.resetToken)
+          templateData.hashLink = buildLink('reset-password', user.resetToken)
 
           break
 
         case 'resetPwd':
           subject = 'Your password was reset'
           templateName = 'account/password-was-reset'
-          templateData.hashLink = buildLink('reset', user.resetToken)
 
           break
 
