@@ -23,7 +23,10 @@ const UsersHooks: HooksObject = {
   before: {
     all: [],
     find: [authenticate('jwt')],
-    get: [authenticate('jwt')],
+    get: [
+      authenticate('jwt'),
+      iff(isProvider('external'), restrictToOwner({ ownerField: '_id' })),
+    ],
     create: [addVerification(), hashPassword(), gravatar()],
     update: [disallow('external')],
     patch: [
@@ -44,7 +47,6 @@ const UsersHooks: HooksObject = {
           'resetExpires',
         ),
       ),
-      hashPassword(),
     ],
     remove: [authenticate('jwt')],
   },
