@@ -1,7 +1,0 @@
-{
-  "port": 3031,
-  "mailer": {
-    "port": 1024,
-    "ignoreTLS": true
-  }
-}
