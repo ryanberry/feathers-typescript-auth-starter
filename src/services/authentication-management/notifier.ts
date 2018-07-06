@@ -50,11 +50,10 @@ export default (app: Application) => {
           break
 
         case 'identityChange':
-          throw new Error('Not Implemented')
-          // subject = 'Your account was changed. Please verify the changes'
-          // templatePath = 'identity-change'
-          // templateData.hashLink = buildLink('verifyChanges', user.verifyToken)
-          // templateData.changes = user.verifyChanges
+          subject = 'Your account was changed. Please verify the changes'
+          templateName = 'account/identity-change'
+          templateData.hashLink = buildLink('verify', user.verifyToken)
+          templateData.changes = user.verifyChanges
 
           break
 
